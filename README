@@ -1,0 +1,9 @@
+Asgard = AO simple GUI and realtime display =
+ AO status display described in ATT Operations (Science) System Document.
+
+Javascript front end (view-zgwd.js for now (started with the DMS demo))
+and python back end (abe.py)
+
+abe.py sends row updates to Asgard front end (JavaScript in browser)
+via JSON.  For now it's a simple simulation.  Someday it will
+monitor AO events (from MongoDB?).
