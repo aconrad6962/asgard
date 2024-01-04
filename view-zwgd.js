@@ -26,9 +26,18 @@ export class ViewZwgd extends LitElement {
   render() {
     return html`
 <style>
+{
+  font-family: Helvetica, Sans-Serif;
+}
+td {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+/*
 table {
   border-spacing: 30px;
 }
+*/
 svg {
   stroke: gray;
   stroke-width: 5;
@@ -41,8 +50,11 @@ h1 {
 </style>
 
 <table>
+ <tr> <td colspan=4 align=center style="font-size: 30px" bgcolor=${this.r0g}>
+   ${this.r0t}</td>
+ <tr> <td colspan=10><hr></td> </tr>
  <tr>
-  <td style="vertical-align: top;"> <h1>AO Preset</h1> </td>
+  <td style="vertical-align: top;" align=right> <h1>AO Preset&nbsp;</h1> </td>
   <td>
    <svg width=50 height=70><circle id=r1g cx=25 cy=25 r=20 fill=${this.r1g}></svg> 
    </td>
@@ -57,7 +69,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"> <h1>Center Star</h1>
+  <td style="vertical-align: top;" align=right> <h1>Center Star&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r2g cx=25 cy=25 r=20 fill=${this.r2g}></svg> 
   <td>
@@ -69,7 +81,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"><h1>Center Pupils</h1>
+  <td style="vertical-align: top;" align=right><h1>Center Pupils&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r3g cx=25 cy=25 r=20 fill=${this.r3g}></svg> 
   <td>
@@ -81,7 +93,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"><h1>Check Flux</h1>
+  <td style="vertical-align: top;" align=right><h1>Check Flux&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r4g cx=25 cy=25 r=20 fill=${this.r4g}></svg> 
   <td>
@@ -93,7 +105,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"><h1>Close Loop</h1>
+  <td style="vertical-align: top;" align=right><h1>Close Loop&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r5g cx=25 cy=25 r=20 fill=${this.r5g}></svg> 
   <td>
@@ -105,7 +117,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"><h1>Optimize Gain</h1>
+  <td style="vertical-align: top;" align=right><h1>Optimize Gain&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r6g cx=25 cy=25 r=20 fill=${this.r6g}></svg> 
   <td>
@@ -117,7 +129,7 @@ h1 {
   </td>
  </tr>
  <tr>
-  <td style="vertical-align: top;"><h1>Apply Optical Gain</h1>
+  <td style="vertical-align: top;" align=right><h1>&nbsp;Apply Optical Gain&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r7g cx=25 cy=25 r=20 fill=${this.r7g}></svg> 
   <td>
@@ -170,6 +182,8 @@ h1 {
   @query('#connect') accessor $connect;
   @query('#disconnect') accessor $disconnect;
   @query('#test') accessor $test;
+  @query('#r0t') accessor $r0t;
+  @query('#r0g') accessor $r0g;
   @query('#r1g') accessor $r1g;
   @query('#r1y') accessor $r1y;
   @query('#r1r') accessor $r1r;
@@ -206,6 +220,10 @@ h1 {
 //    this.text = "foo"
 //  }
     switch (rownum) {
+      case 0:
+        this.r0g = gcolor;
+        this.r0t = text;
+        break;
       case 1:
         this.r1g = gcolor;
         this.r1y = ycolor;
