@@ -50,10 +50,15 @@ h1 {
 </style>
 
 <table>
- <tr> <td colspan=4 align=center style="font-size: 30px" bgcolor=${this.r0g}>
+ <tr> <td colspan=9 align=center style="font-size: 30px" bgcolor=${this.r0g}>
    ${this.r0t}</td>
- <tr> <td colspan=10><hr></td> </tr>
+ <tr> <td colspan=9><hr></td> </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td align=center width=275><h1><u>Loop</u></h1></td>
+  <td bgcolor=black></td>
+  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;RMS WFE:</h1></td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right> <h1>AO Preset&nbsp;</h1> </td>
   <td>
    <svg width=50 height=70><circle id=r1g cx=25 cy=25 r=20 fill=${this.r1g}></svg> 
@@ -69,6 +74,12 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+    <h1 bgcolor=blue>Open</h1></td>
+  <td bgcolor=black></td>
+  <td align=right width=275><h1>37 nm&nbsp;</td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right> <h1>Center Star&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r2g cx=25 cy=25 r=20 fill=${this.r2g}></svg> 
@@ -81,6 +92,12 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+    <h1>Closed</h1></td>
+  <td bgcolor=black></td>
+  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Seeing:</h1></td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Center Pupils&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r3g cx=25 cy=25 r=20 fill=${this.r3g}></svg> 
@@ -93,6 +110,12 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+    <h1>Paused</h1></td>
+  <td bgcolor=black></td>
+  <td vertical-align=middle align=right width=275><h1>1.1 arcsec&nbsp;</td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Check Flux&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r4g cx=25 cy=25 r=20 fill=${this.r4g}></svg> 
@@ -105,6 +128,12 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+    <h1>Fault</h1></td>
+  <td bgcolor=black></td>
+  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Frame Rate:</h1></td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Close Loop&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r5g cx=25 cy=25 r=20 fill=${this.r5g}></svg> 
@@ -117,6 +146,11 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td></td>
+  <td></td>
+  <td vertical-align=middle align=right width=275><h1>900 Hz&nbsp;</td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Optimize Gain&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r6g cx=25 cy=25 r=20 fill=${this.r6g}></svg> 
@@ -129,6 +163,11 @@ h1 {
   </td>
  </tr>
  <tr>
+  <td bgcolor=black></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>&nbsp;Apply Optical Gain&nbsp;</h1>
   <td>
    <svg width=50 height=70><circle id=r7g cx=25 cy=25 r=20 fill=${this.r7g}></svg> 

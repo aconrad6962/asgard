@@ -73,7 +73,7 @@ class Demo1(AbstractProducer):
       if self.num > 0:
         self.state = "Sci"
         t = "Ready for Science"
-        gc = "green"
+        gc = "lightgreen"
         yc = ""
         rc = ""
       else:
