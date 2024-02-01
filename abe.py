@@ -8,7 +8,8 @@
 #
 #  Revision History:
 #    10-Oct-2021    ARC    Original 
-#    30-Dec-2021    ARC    Addding states 
+#    30-Dec-2023    ARC    Addding states 
+#    23-Jan-2024    ARC    New messages for loop state
 
 from lbt.dms.zwgd.core import AbstractProducer, DataProduct
 import time
@@ -18,7 +19,8 @@ name = 'demo1'
 class Demo1(AbstractProducer):
     num = 10           # count down timer for time to stay in each state
     odMin = -3         # overdue minimum
-    rnum = 1           # row number within front end display
+    rnum = 1           # row number within front end acq display
+    snum = 1           # seq number within front end sci display
     state = "Ready"
 
     def process_rdy_state(self):
@@ -30,12 +32,13 @@ class Demo1(AbstractProducer):
         yc = ""
         rc = ""
       else:
-        self.state = "Acq"
+        self.state = "Acq"   #  exits this state
         t = "Acquisition in Progress"
         gc = "lightyellow"
         yc = ""
         rc = ""
         self.num = 10
+        self.rnum = 1
       mydata = {'row': 0, 'gc': gc, 'yc': yc, 'rc': rc, 'text': t }
       return DataProduct(mydata)
 
@@ -62,28 +65,50 @@ class Demo1(AbstractProducer):
         self.rnum += 1
         if self.rnum > 7:
           self.rnum = 0
-          self.state = "Sci"
+          self.snum = 0
+          self.state = "Sci"   #  exits this state
         # hack to fast frwrd to the end
         if 2 < self.rnum and self.rnum < 7:
           self.num = 3
       return DataProduct(mydata)
 
     def process_sci_state(self):
-      self.num -= 1
-      if self.num > 0:
+      if self.snum == 0:
+        self.snum = 1
         self.state = "Sci"
         t = "Ready for Science"
         gc = "lightgreen"
         yc = ""
         rc = ""
+        mydata = {'row': 0, 'gc': gc, 'yc': yc, 'rc': rc, 'text': t }
+      elif self.snum < 6:
+        if self.num > 0:
+          self.num -= 1
+          text = ""
+          color = "lightyellow"
+          if self.snum == 1:
+            row = 12
+          if self.snum == 2:
+            row = 13
+          if self.snum == 3:
+            row = 12
+          if self.snum == 4:
+            row = 11
+          if self.snum == 5:
+            row = 12
+          mydata = {'row': row, 'color': color, 'text': text }
+        else:
+            self.snum += 1     # move to next light in sqnc
+            self.num   = 10    # reset countdown timer
       else:
-        self.state = "Ready"
-        t = "Ready for Acquisition"
-        gc = "white"
+        self.state = "Ready"   #  exits this state
+        t = ""
+        gc = ""
         yc = ""
         rc = ""
         self.num = 10
-      mydata = {'row': 0, 'gc': gc, 'yc': yc, 'rc': rc, 'text': t }
+        print( "here i am\n" )
+        mydata = {'row': -1, 'gc': gc, 'yc': yc, 'rc': rc, 'text': t }
       return DataProduct(mydata)
 
     def on_poll(self):
@@ -93,6 +118,8 @@ class Demo1(AbstractProducer):
         d = self.process_acq_state()
       elif self.state == 'Sci':
         d = self.process_sci_state()
+      print( "state, rnum, num = %s, %d, %d" % ( self.state, self.rnum, self.num ) )
+      print( d )
       return d
 
     def on_subscribe(self, msg=None):

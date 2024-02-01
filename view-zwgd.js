@@ -57,7 +57,7 @@ h1 {
   <td bgcolor=black></td>
   <td align=center width=275><h1><u>Loop</u></h1></td>
   <td bgcolor=black></td>
-  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;RMS WFE:</h1></td>
+  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Slope RMS:</h1></td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right> <h1>AO Preset&nbsp;</h1> </td>
   <td>
@@ -75,7 +75,8 @@ h1 {
  </tr>
  <tr>
   <td bgcolor=black></td>
-  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+  <td vertical-align=middle align=center width=275
+bgcolor=${this.p01}>
     <h1 bgcolor=blue>Open</h1></td>
   <td bgcolor=black></td>
   <td align=right width=275><h1>37 nm&nbsp;</td>
@@ -93,7 +94,8 @@ h1 {
  </tr>
  <tr>
   <td bgcolor=black></td>
-  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+  <td vertical-align=middle align=center width=275
+bgcolor=${this.p02}>
     <h1>Closed</h1></td>
   <td bgcolor=black></td>
   <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Seeing:</h1></td>
@@ -111,7 +113,8 @@ h1 {
  </tr>
  <tr>
   <td bgcolor=black></td>
-  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+  <td vertical-align=middle align=center width=275
+bgcolor=${this.p03}>
     <h1>Paused</h1></td>
   <td bgcolor=black></td>
   <td vertical-align=middle align=right width=275><h1>1.1 arcsec&nbsp;</td>
@@ -129,10 +132,11 @@ h1 {
  </tr>
  <tr>
   <td bgcolor=black></td>
-  <td vertical-align=middle align=center width=275 bgcolor=lightgrey>
+  <td vertical-align=middle align=center width=275
+bgcolor=${this.p04}>
     <h1>Fault</h1></td>
   <td bgcolor=black></td>
-  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Frame Rate:</h1></td>
+  <td align=left style="vertical-align: bottom;" width=275><h1>&nbsp;Est. Strehl:</h1></td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Close Loop&nbsp;</h1>
   <td>
@@ -149,7 +153,7 @@ h1 {
   <td bgcolor=black></td>
   <td></td>
   <td></td>
-  <td vertical-align=middle align=right width=275><h1>900 Hz&nbsp;</td>
+  <td vertical-align=middle align=right width=275><h1>0.82&nbsp;</td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Optimize Gain&nbsp;</h1>
   <td>
@@ -221,6 +225,10 @@ h1 {
   @query('#connect') accessor $connect;
   @query('#disconnect') accessor $disconnect;
   @query('#test') accessor $test;
+  @query('#p01') accessor $p01;
+  @query('#p02') accessor $p02;
+  @query('#p03') accessor $p03;
+  @query('#p04') accessor $p04;
   @query('#r0t') accessor $r0t;
   @query('#r0g') accessor $r0g;
   @query('#r1g') accessor $r1g;
@@ -252,12 +260,36 @@ h1 {
   @query('#r7r') accessor $r7r;
   @query('#r7t') accessor $r7t;
 
-  updateRow ( rownum, gcolor, ycolor, rcolor, text ) {
-//  if (trem == 0 ) {
-//    this.text = "Completa"
-//  } else {
-//    this.text = "foo"
-//  }
+  updateLeftRow ( rownum, color, text ) {
+    switch (rownum) {
+      case 11:
+        this.p01 = color;
+        this.p02 = "lightgrey";
+        this.p03 = "lightgrey";
+        this.p04 = "lightgrey";
+        break;
+      case 12:
+        this.p01 = "lightgrey";
+        this.p02 = color;
+        this.p03 = "lightgrey";
+        this.p04 = "lightgrey";
+        break;
+      case 13:
+        this.p01 = "lightgrey";
+        this.p02 = "lightgrey";
+        this.p03 = color;
+        this.p04 = "lightgrey";
+        break;
+      case 14:
+        this.p01 = "lightgrey";
+        this.p02 = "lightgrey";
+        this.p03 = "lightgrey";
+        this.p04 = color;
+        break;
+    }
+  }
+
+  updateRightRow ( rownum, gcolor, ycolor, rcolor, text ) {
     switch (rownum) {
       case 0:
         this.r0g = gcolor;
@@ -308,6 +340,20 @@ h1 {
     }
   }
 
+  resetAll() {
+    this.updateRightRow( 0, "white", "", "", "Ready for Acquisition" );
+    this.updateRightRow( 1, "gray", "gray", "gray", "" );
+    this.updateRightRow( 2, "gray", "gray", "gray", "" );
+    this.updateRightRow( 3, "gray", "gray", "gray", "" );
+    this.updateRightRow( 4, "gray", "gray", "gray", "" );
+    this.updateRightRow( 5, "gray", "gray", "gray", "" );
+    this.updateRightRow( 6, "gray", "gray", "gray", "" );
+    this.updateRightRow( 7, "gray", "gray", "gray", "" );
+    this.updateLeftRow( 11, "lightgrey", "" );
+    this.updateLeftRow( 12, "lightgrey", "" );
+    this.updateLeftRow( 13, "lightgrey", "" );
+    this.updateLeftRow( 14, "lightgrey", "" );
+  }
 
   send_chat_message(evt) {
     this.$zwgd.send(this.$chat.value);
@@ -334,13 +380,13 @@ h1 {
 //  this.$r5y.fill = 'red';
 //  this.r1t = "hello";
 //  this.r5g = "red"
-    this.updateRow( 1, "lime", "gray", "red", "Completo" )
-    this.updateRow( 2, "lime", "gray", "red", "Complete" )
-    this.updateRow( 3, "lime", "gray", "red", "Complete" )
-    this.updateRow( 4, "lime", "gray", "red", "Complete" )
-    this.updateRow( 5, "lime", "gray", "red", "Complete" )
-    this.updateRow( 6, "lime", "gray", "red", "Complete" )
-    this.updateRow( 7, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 1, "lime", "gray", "red", "Completo" )
+    this.updateRightRow( 2, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 3, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 4, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 5, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 6, "lime", "gray", "red", "Complete" )
+    this.updateRightRow( 7, "lime", "gray", "red", "Complete" )
   }
 
   onmessage(e) {
@@ -349,8 +395,17 @@ h1 {
     this.text    = JSON.stringify(data);
     this.indx    = this.text.indexOf( "text" ) + 7    // kludge
     this.end     = this.text.length - 2
-    this.updateRow( data.row, data.gc, data.yc, data.rc,
+    if (data.row >= 11 ) {
+      this.updateLeftRow( data.row, data.color, 
 	    this.text.substring(this.indx,this.end) )
+    }
+    else if (data.row >= 0 ) {
+      this.updateRightRow( data.row, data.gc, data.yc, data.rc,
+	    this.text.substring(this.indx,this.end) )
+    }
+    else {
+      this.resetAll()
+    }
   }
 
   onevent(e) {
@@ -375,35 +430,6 @@ h1 {
     this.firstUpdatedWithChildren();
   }
 
-  @state() accessor r1g = '';
-  @state() accessor r1y = '';
-  @state() accessor r1r = '';
-  @state() accessor r1t = '';
-  @state() accessor r2g = '';
-  @state() accessor r2y = '';
-  @state() accessor r2r = '';
-  @state() accessor r2t = '';
-  @state() accessor r3g = '';
-  @state() accessor r3y = '';
-  @state() accessor r3r = '';
-  @state() accessor r3t = '';
-  @state() accessor r4g = '';
-  @state() accessor r4y = '';
-  @state() accessor r4r = '';
-  @state() accessor r4t = '';
-  @state() accessor r5g = '';
-  @state() accessor r5y = '';
-  @state() accessor r5r = '';
-  @state() accessor r5t = '';
-  @state() accessor r6g = '';
-  @state() accessor r6y = '';
-  @state() accessor r6r = '';
-  @state() accessor r6t = '';
-  @state() accessor r7g = '';
-  @state() accessor r7y = '';
-  @state() accessor r7r = '';
-  @state() accessor r7t = '';
   @state() accessor dbgdata = '';
   @state({ type: String }) accessor state = 'indef';
-
 }
