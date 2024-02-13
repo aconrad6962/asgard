@@ -79,7 +79,7 @@ h1 {
 bgcolor=${this.p01}>
     <h1 bgcolor=blue>Open</h1></td>
   <td bgcolor=black></td>
-  <td align=right width=275><h1>37 nm&nbsp;</td>
+  <td align=right width=275><h1>${this.s01} nm&nbsp;</td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right> <h1>Center Star&nbsp;</h1>
   <td>
@@ -117,7 +117,8 @@ bgcolor=${this.p02}>
 bgcolor=${this.p03}>
     <h1>Paused</h1></td>
   <td bgcolor=black></td>
-  <td vertical-align=middle align=right width=275><h1>1.1 arcsec&nbsp;</td>
+  <td vertical-align=middle align=right width=275>
+     <div id=s02><h1>${this.s02} arcsec&nbsp;<div></td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Check Flux&nbsp;</h1>
   <td>
@@ -153,7 +154,7 @@ bgcolor=${this.p04}>
   <td bgcolor=black></td>
   <td></td>
   <td></td>
-  <td vertical-align=middle align=right width=275><h1>0.82&nbsp;</td>
+  <td vertical-align=middle align=right width=275><h1>${this.s03} &nbsp;</td>
   <td bgcolor=black></td>
   <td style="vertical-align: top;" align=right><h1>Optimize Gain&nbsp;</h1>
   <td>
@@ -225,6 +226,11 @@ bgcolor=${this.p04}>
   @query('#connect') accessor $connect;
   @query('#disconnect') accessor $disconnect;
   @query('#test') accessor $test;
+
+  @query('#s01') accessor $s01;
+  @query('#s02') accessor $s02;
+  @query('#s03') accessor $s03;
+
   @query('#p01') accessor $p01;
   @query('#p02') accessor $p02;
   @query('#p03') accessor $p03;
@@ -286,6 +292,15 @@ bgcolor=${this.p04}>
         this.p03 = "lightgrey";
         this.p04 = color;
         break;
+      case 21:
+        this.s01 = text;
+        break;
+      case 22:
+        this.s02 = text;
+        break;
+      case 23:
+        this.s03 = text;
+        break;
     }
   }
 
@@ -340,6 +355,12 @@ bgcolor=${this.p04}>
     }
   }
 
+  updateAll( data ) {
+    this.updateRightRow( 0, data.row00gc, "", "", data.row00text );
+    this.updateLeftRow( 21, data.row21color, data.row21text );
+    this.updateLeftRow( 23, data.row23color, data.row23text )
+  }
+
   resetAll() {
     this.updateRightRow( 0, "white", "", "", "Ready for Acquisition" );
     this.updateRightRow( 1, "gray", "gray", "gray", "" );
@@ -353,6 +374,9 @@ bgcolor=${this.p04}>
     this.updateLeftRow( 12, "lightgrey", "" );
     this.updateLeftRow( 13, "lightgrey", "" );
     this.updateLeftRow( 14, "lightgrey", "" );
+    this.updateLeftRow( 21, ""         , "UNK" );
+    this.updateLeftRow( 22, ""         , "UNK" );
+    this.updateLeftRow( 23, ""         , "UNK" );
   }
 
   send_chat_message(evt) {
@@ -377,9 +401,6 @@ bgcolor=${this.p04}>
   }
 
   test(e) {
-//  this.$r5y.fill = 'red';
-//  this.r1t = "hello";
-//  this.r5g = "red"
     this.updateRightRow( 1, "lime", "gray", "red", "Completo" )
     this.updateRightRow( 2, "lime", "gray", "red", "Complete" )
     this.updateRightRow( 3, "lime", "gray", "red", "Complete" )
@@ -395,6 +416,9 @@ bgcolor=${this.p04}>
     this.text    = JSON.stringify(data);
     this.indx    = this.text.indexOf( "text" ) + 7    // kludge
     this.end     = this.text.length - 2
+    if (data.row == 711 ) {
+      this.updateAll( data )
+    }
     if (data.row >= 11 ) {
       this.updateLeftRow( data.row, data.color, 
 	    this.text.substring(this.indx,this.end) )
